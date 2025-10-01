@@ -7,13 +7,13 @@ const Nav = () => {
             }  to="/">Home</NavLink>
             <NavLink className={(e)=>e.isActive?"text-red-300":""
             }
-            to="/About">About</NavLink>
+            to="/about">About</NavLink>
             <NavLink className={(e)=>e.isActive?"text-red-300":""
             }
             to="/Recipes">Recipes</NavLink>
             <NavLink className={(e)=>e.isActive?"text-red-300":""
             }
-            to="/CreateRecipe">CreateRecipes</NavLink>
+            to="/create-recipe">CreateRecipes</NavLink>
         </div>
     )
 }
