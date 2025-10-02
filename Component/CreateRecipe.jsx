@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { DataContext } from "../Context/Context.jsx"; // ✅ import the context, not provider
 import { nanoid } from "nanoid";
+import { useNavigate } from "react-router";
+import { toast } from 'react-toastify';
 
 const CreateRecipe = ({ data, setdata }) => {
   const {
@@ -10,14 +12,16 @@ const CreateRecipe = ({ data, setdata }) => {
     reset,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const { data: contextData, setdata: setContextData } =
     useContext(DataContext);
 
   const onSubmit = (recipe) => {
     recipe.id = nanoid();
     setContextData([...contextData, recipe]);
+    toast.success("Create New Recipe ")
     reset();
+    navigate("/recipes")
   };
 
   return (
@@ -28,8 +32,8 @@ const CreateRecipe = ({ data, setdata }) => {
       >
         <input
           className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
-          {...register("File")}
-          type="file"
+          {...register("image")}
+          type="url"
           placeholder="Enter the Image Url"
         />
 
@@ -40,12 +44,7 @@ const CreateRecipe = ({ data, setdata }) => {
           placeholder="Enter the dish name"
         />
 
-        <input
-          className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
-          {...register("RecipeTitle")}
-          type="text"
-          placeholder="Enter the Recipe Title"
-        />
+      
 
         <input
           className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
@@ -72,10 +71,10 @@ const CreateRecipe = ({ data, setdata }) => {
           className="border-b border-black outline-0 w-85"
         />
 
-        <select {...register("City")} className="w-85">
-          <option value="Ludhiana">Ludhiana</option>
-          <option value="Delhi">Delhi</option>
-          <option value="Chandigarh">Chandigarh</option>
+        <select {...register("MealType")} className="w-85">
+          <option value="Breakfast">Breakfast</option>
+          <option value="Lunch">Lunch</option>
+          <option value="Dinner">Dinner</option>
         </select>
 
         <button type="submit" className="bg-gray-100">
