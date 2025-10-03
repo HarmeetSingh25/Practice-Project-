@@ -7,7 +7,7 @@ const RecipeCard = ({ recipe }) => {
 //   console.log(id, DishName, Description, Ingredients, Instruction, image);
 
   return <Link to={`/recipes/detail/${id}`} key={id} className="hover:scale-102 transition-all  rounded-md overflow-hidden m-5 flex flex-col gap-3 w-[25vw]  bg-gray-400 shadow-gray-900 shadow">
-    <img className="h-60 w-full object-cover" src={image} alt="" />
+    <img className="h-60 w-full  object-cover" src={image} alt="" />
     <div className="p-5 text-cyan-50 flex flex-col gap-2  text-center">
 
     <h1>{DishName}</h1>
