@@ -13,8 +13,7 @@ const CreateRecipe = ({ data, setdata }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const { data: contextData, setdata: setContextData } =
-    useContext(DataContext);
+  const { data: contextData, setdata: setContextData } = useContext(DataContext);
 
   const onSubmit = (recipe) => {
     recipe.id = nanoid();
