@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const RecipeCard = ({ recipe }) => {
-  console.log(recipe.id);
+  // console.log(recipe.id);
   const { id, DishName, Description, Ingredients, Instruction ,image ,ChiefName } = recipe;
 //   console.log(id, DishName, Description, Ingredients, Instruction, image);
 

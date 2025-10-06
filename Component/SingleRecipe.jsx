@@ -8,6 +8,8 @@ const SingleRecipe = () => {
   const { data, setdata } = useContext(DataContext);
   const navigate = useNavigate();
   const { id } = useParams(); // recipe id from URL
+console.log(id);
+
 
   // Find the recipe that matches the id from params
   const recipe = data.find((r) => String(r.id) === String(id));
