@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { DataContext } from "../Context/Context.jsx"; // ✅ import the context, not provider
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router";
-import { toast } from 'react-toastify';
+import { toast } from "react-toastify";
 
 const CreateRecipe = ({ data, setdata }) => {
   const {
@@ -13,14 +13,22 @@ const CreateRecipe = ({ data, setdata }) => {
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
-  const { data: contextData, setdata: setContextData } = useContext(DataContext);
+  const { data: contextData, setdata: setContextData } =
+    useContext(DataContext);
 
   const onSubmit = (recipe) => {
+    console.log(recipe);
+    
     recipe.id = nanoid();
-    setContextData([...contextData, recipe]);
-    toast.success("Create New Recipe ")
+    // recipe.fav={}
+    const CopyData = [...contextData];
+    CopyData.push(recipe);
+    setContextData(CopyData);
+
+    localStorage.setItem("recipe", JSON.stringify(CopyData));
+    toast.success("Create New Recipe ");
     reset();
-    navigate("/recipes")
+    navigate("/recipes");
   };
 
   return (
@@ -29,6 +37,14 @@ const CreateRecipe = ({ data, setdata }) => {
         className="m-6 flex flex-col gap-10"
         onSubmit={handleSubmit(onSubmit)}
       >
+
+      
+      
+      <label className="bg-gray-100 rounded-md w-fit p-2 items-center flex gap-1.5">
+        <h3 className="text-pink-400">Click here to make favorite recipe</h3>
+        <input {...register("fav")} type="checkbox" className="w-4 h-4" />
+      </label>
+
         <input
           className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
           {...register("image")}
@@ -42,8 +58,6 @@ const CreateRecipe = ({ data, setdata }) => {
           type="text"
           placeholder="Enter the dish name"
         />
-
-      
 
         <input
           className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"

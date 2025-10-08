@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { DataContext } from "../Context/Context";
 import { toast } from "react-toastify";
@@ -8,8 +8,6 @@ const SingleRecipe = () => {
   const { data, setdata } = useContext(DataContext);
   const navigate = useNavigate();
   const { id } = useParams(); // recipe id from URL
-console.log(id);
-
 
   // Find the recipe that matches the id from params
   const recipe = data.find((r) => String(r.id) === String(id));
@@ -18,7 +16,6 @@ console.log(id);
   const { register, handleSubmit, reset } = useForm({
     defaultValues: recipe,
   });
-  
 
   // ✅ update recipe handler
   const updatesHandler = (updatedRecipe) => {
@@ -27,15 +24,22 @@ console.log(id);
       String(r.id) === String(id) ? { ...r, ...updatedRecipe } : r
     );
     setdata(newData);
+    localStorage.setItem("recipes", JSON.stringify(newData));
     toast.success("Recipe Updated ✅");
+    // useEffect(()=>{})
     reset(updatedRecipe);
     navigate("/recipes");
   };
+
+  useEffect(() => {
+    if (recipe) reset(recipe);
+  }, [recipe, reset]);
 
   // ✅ delete recipe handler
   const Deletedhandler = () => {
     const filteredData = data.filter((r) => String(r.id) !== String(id));
     setdata(filteredData);
+    localStorage.setItem("recipe", JSON.stringify(filteredData));
     toast.error("Recipe Deleted ❌");
     navigate("/recipes");
   };
@@ -50,8 +54,7 @@ console.log(id);
         <img src={recipe.image} className="w-30 rounded-full" alt="recipe" />
         <h1 className="text-md">
           <span className="text-amber-600">Dishname: </span>
-          {recipe.DishName} ,{" "}
-          <span className="text-amber-600">Mealtype: </span>
+          {recipe.DishName} , <span className="text-amber-600">Mealtype: </span>
           {recipe.MealType}
         </h1>
         <h1>{recipe.Description}</h1>
@@ -62,7 +65,15 @@ console.log(id);
 
       {/* ---------- Right side: Edit Form ---------- */}
       <div className="RecipeEdit shadow-amber-400 flex flex-col gap-4 shadow rounded-md p-4 w-1/2">
-        <form className="flex flex-col gap-5" onSubmit={handleSubmit(updatesHandler)}>
+        <form
+          className="flex flex-col gap-5"
+          onSubmit={handleSubmit(updatesHandler)}
+        >
+       <label className="bg-gray-100 rounded-md w-fit p-2 items-center flex gap-1.5">
+        <h3 className="text-pink-400">Click here to make favorite recipe</h3>
+        <input {...register("fav")} type="checkbox" className="w-4 h-4" />
+        {localStorage.setItem("recipe", JSON.stringify(data))}
+      </label>
           <input
             className="cursor-pointer px-4 py-4 w-full bg-gray-100 rounded shadow outline-0 text-xl"
             type="url"
