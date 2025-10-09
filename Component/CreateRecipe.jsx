@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { DataContext } from "../Context/Context.jsx"; // ✅ import the context, not provider
+import { DataContext } from "../Context/Context.jsx";
 import { nanoid } from "nanoid";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 
-const CreateRecipe = ({ data, setdata }) => {
+const CreateRecipe = () => {
   const {
     register,
     handleSubmit,
@@ -17,81 +17,119 @@ const CreateRecipe = ({ data, setdata }) => {
     useContext(DataContext);
 
   const onSubmit = (recipe) => {
-    console.log(recipe);
-    
     recipe.id = nanoid();
-    // recipe.fav={}
     const CopyData = [...contextData];
     CopyData.push(recipe);
     setContextData(CopyData);
 
     localStorage.setItem("recipe", JSON.stringify(CopyData));
-    toast.success("Create New Recipe ");
+    toast.success("✅ New Recipe Created!");
     reset();
     navigate("/recipes");
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-pink-200 via-purple-200 to-indigo-200">
       <form
-        className="m-6 flex flex-col gap-10"
+        className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-lg flex flex-col gap-6"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <h1 className="text-3xl font-bold text-center text-pink-600">
+          🍴 Create a New Recipe
+        </h1>
 
-      
-      
-      <label className="bg-gray-100 rounded-md w-fit p-2 items-center flex gap-1.5">
-        <h3 className="text-pink-400">Click here to make favorite recipe</h3>
-        <input {...register("fav")} type="checkbox" className="w-4 h-4" />
-      </label>
+        {/* Favorite Checkbox */}
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            {...register("fav")}
+            type="checkbox"
+            className="w-5 h-5 accent-pink-500"
+          />
+          <span className="text-gray-700">Mark as Favorite ❤️</span>
+        </label>
 
-        <input
-          className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
-          {...register("image")}
-          type="url"
-          placeholder="Enter the Image Url"
-        />
+        {/* Image */}
+        <div>
+          <label className="text-gray-700 font-medium">Image URL</label>
+          <input
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+            {...register("image", { required: true })}
+            type="url"
+            placeholder="Enter the Image Url"
+          />
+        </div>
 
-        <input
-          className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
-          {...register("DishName")}
-          type="text"
-          placeholder="Enter the dish name"
-        />
+        {/* Dish Name */}
+        <div>
+          <label className="text-gray-700 font-medium">Dish Name</label>
+          <input
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+            {...register("DishName", { required: true })}
+            type="text"
+            placeholder="Enter the dish name"
+          />
+        </div>
 
-        <input
-          className="px-4 py-4 w-80 border-b border-black outline-0 text-xl"
-          {...register("ChiefName")}
-          type="text"
-          placeholder="Enter the Chief Name"
-        />
+        {/* Chief Name */}
+        <div>
+          <label className="text-gray-700 font-medium">Chef Name</label>
+          <input
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+            {...register("ChiefName")}
+            type="text"
+            placeholder="Enter the Chef Name"
+          />
+        </div>
 
-        <textarea
-          {...register("Description")}
-          placeholder="Write the description for recipe"
-          className="border-b border-black outline-0 w-85"
-        />
+        {/* Description */}
+        <div>
+          <label className="text-gray-700 font-medium">Description</label>
+          <textarea
+            {...register("Description")}
+            placeholder="Write a short description..."
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+          />
+        </div>
 
-        <textarea
-          {...register("Ingredients")}
-          placeholder="Write the ingredient of recipe"
-          className="border-b border-black outline-0 w-85"
-        />
+        {/* Ingredients */}
+        <div>
+          <label className="text-gray-700 font-medium">Ingredients</label>
+          <textarea
+            {...register("Ingredients")}
+            placeholder="List ingredients..."
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+          />
+        </div>
 
-        <textarea
-          {...register("Instruction")}
-          placeholder="Write the instruction for cook"
-          className="border-b border-black outline-0 w-85"
-        />
+        {/* Instructions */}
+        <div>
+          <label className="text-gray-700 font-medium">Instructions</label>
+          <textarea
+            {...register("Instruction")}
+            placeholder="Step by step instructions..."
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+          />
+        </div>
 
-        <select {...register("MealType")} className="w-85">
-          <option value="Breakfast">Breakfast</option>
-          <option value="Lunch">Lunch</option>
-          <option value="Dinner">Dinner</option>
-        </select>
+        {/* Meal Type */}
+        <div>
+          <label className="text-gray-700 font-medium">Meal Type</label>
+          <select
+            {...register("MealType")}
+            className="px-4 py-3 w-full border rounded-md shadow-sm focus:ring-2 focus:ring-pink-400 outline-none"
+          >
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
+        </div>
 
-        <button type="submit" className="bg-gray-100">
-          Submit
+        {/* Submit */}
+        <button
+          type="submit"
+          className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-lg"
+        >
+          Submit Recipe
         </button>
       </form>
     </div>
