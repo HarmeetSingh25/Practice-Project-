@@ -23,7 +23,7 @@ const Home = () => {
       {/* Featured Recipes */}
       <div className="p-10">
         <h2 className="text-3xl font-bold text-center mb-8">⭐ Featured Recipes</h2>
-    <div className="flex flex-wrap justify-start gap-6 mt-6">
+    <div className="flex flex-wrap justify-evenly gap-6 mt-6">
   {data.slice(0, 3).map((recipe) => (
     <RecipeCard key={recipe.id} recipe={recipe} />
   ))}
